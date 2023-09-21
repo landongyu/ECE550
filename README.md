@@ -11,7 +11,7 @@
 
 I designed and simulated an ALU using Verilog. It is a non-RCA adder with support for addition & subtraction. My ALU runs two operations (add, sub) for the inputs data_operandA, data_operandB.
 
-#### Module FA (Full Adder)
+#### Module FA
 
 Full Adder is a fundamental digital circuit used in binary addition. It takes three inputs, a, b, and cin, and produces two outputs: sum and cout. The FA module calculates the sum of a, b, and cin.
 
