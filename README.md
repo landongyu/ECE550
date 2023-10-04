@@ -3,7 +3,7 @@
 ## Checkpoint 1
 
 **Author:** Dongyu Lan  
-**Date:** 09/21/2023  
+**Date:** 10/03/2023  
 **Netid id:** dl393  
 **Course:** ECE 550, Duke University, Durham, NC
 
@@ -25,7 +25,9 @@ The 32-bit CSA is a digital circuit designed to efficiently perform binary addit
 
 #### Module alu
 
-The alu is a core module. It can handle addition and subtraction based on an operation code. If the least significant bit is 0, it signifies addition. If the least significant bit is 1, it indicates subtraction. Within the ALU module, there is also a call to the reverse module, which reverses each bit of data_operandB. If it's an addition, cin is set to 0, and realB is equal to data_operandB. If it's a subtraction, cin is set to 1, and realB is equal to RB (B after being reversed). Finally, the CSA (Carry Select Adder) is called to compute the sum of data_operandB and realB.
+The alu is a core module. It can handle addition and subtraction based on an operation code. If the least significant bit is 0, it signifies addition. If the least significant bit is 1, it indicates subtraction. Within the ALU module, there is also a call to the reverse module, which reverses each bit of data_operandB. If it's an addition, cin is set to 0, and realB is equal to data_operandB. If it's a subtraction, cin is set to 1, and realB is equal to RB (B after being reversed). Finally, the CSA (Carry Select Adder) is called to compute the sum of data_operandB and realB. 
+
+After checkpoint2, 
 
 #### Module Reverse
 
@@ -34,3 +36,29 @@ The reverse module reverses each bit of a binary number.
 #### Overflow
 
 Overflow is determined based on whether the cout of the most significant bit and the second most significant bit of the 32-bit CSA are equal. If they are equal, overflow is set to 0; if they are not equal, overflow is set to 1.
+
+#### and_bitwise
+And_bitwisetakes two 32-bit input vectors, a and b, and performs a bitwise AND operation between each pair of corresponding bits. The results are stored in a 32-bit output vector, result. The module does this for all 32 bits in parallel, making it efficient for bitwise AND operations. It's a fundamental building block for various digital logic operations involving binary data.
+
+#### or_bitwise
+Or_bitwise takes two 32-bit input vectors, a and b, and performs a bitwise OR operation between each pair of corresponding bits. The results are stored in a 32-bit output vector, result. Similar to the previous module, it conducts this bitwise OR operation for all 32 bits simultaneously, providing an efficient way to perform logical OR operations on binary data.
+
+#### SLL
+SLL,  which stands for Shift Left Logical, that is designed to perform a left-shift operation on a 32-bit binary input. The input, a, is a 32-bit binary value, and the amount of left shift is determined by a 5-bit input shiftamt. The result of the shift operation is stored in a 32-bit output, result.
+
+The code utilizes a series of multiplexers (muxes) to execute the left-shift operation in multiple stages. Each stage shifts a different portion of the input a. Here's how the code works:
+The input  is initially divided into individual bits, from the least significant bit
+The input a is initially divided into individual bits, from the least significant bit (bit 0) to the most significant bit (bit 31).
+The code then proceeds with a multi-stage process using cascaded multiplexers to perform the shift operation. Each stage handles a specific number of bits, shifting them to the left based on the corresponding value of shiftamt.
+
+After the final stage, the shifted values are combined and sent to the result output, with the final amount of left shift determined by shiftamt[4].
+
+#### SRA
+SRA, which stands for Shift Right Arithmetic. This module is designed to perform a right-shift operation on a 32-bit binary input value denoted as a. The amount of right shift is determined by a 5-bit input called shiftamt, and the result of the operation is a 32-bit binary output labeled as result. The code employs a series of multiplexers to carry out the right shift operation. Each multiplexer (referred to as "mux") is responsible for shifting a specific portion of the input a. Here's a breakdown of how it works: The input a is initially split into 32 individual bits, indexed from 0 (the least significant bit) to 31 (the most significant bit). The code then proceeds with a multi-stage process involving several multiplexers to handle the shifting operation. These stages are connected in a cascading manner: First, in the "from 1st mux to 2nd mux" section, the 1st bit of a is combined with the 2nd bit, and so on, based on the value of shiftamt[0]. The result of each pair of bits is sent to the line1 array, with each bit shifted according to the value of shiftamt[0]. This process continues through five similar stages, with each stage shifting the bits further to the right based on the corresponding shiftamt value. After the last stage, the line4 array contains the final shifted values, which are then passed through another set of multiplexers to produce the output result. The shifting is controlled by shiftamt[4].
+
+#### IsNotEqual
+IsNotEqual is simply determined by the subtract result after subtraction. If all bits of subtract_result are 0, the two operands are equal.
+
+#### IsLessThan
+After subtraction, if it is not overflow, we need to see if result_CSA is negative. If it is negative, it means A is less than B. If it is overflow, it means that the two operands do not have the same signs. In this case, only A is negative, B is positive can make A is less than B. 
+
